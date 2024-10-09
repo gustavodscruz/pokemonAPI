@@ -10,4 +10,9 @@ public class PokemonBO {
         PokemonDAO pokemonDAO = new PokemonDAO();
         return pokemonDAO.findAll();
     }
+
+    public PokemonTO findByCodigo(Long codigo){
+        PokemonDAO pokemonDAO = new PokemonDAO();
+        return pokemonDAO.findByCodigo(codigo);
+    }
 }

@@ -34,4 +34,27 @@ public class PokemonDAO extends Repository{
         }
         return pokemons;
     }
+    public PokemonTO findByCodigo(Long codigo){
+        PokemonTO pokemon = new PokemonTO();
+        String sql = "select * from pokemon where codigo = ?";
+        try(PreparedStatement ps = getConnection().prepareStatement(sql)){
+            ps.setLong(1, codigo);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                pokemon.setCodigo(rs.getLong("codigo"));
+                pokemon.setNome(rs.getString("nome"));
+                pokemon.setPeso(rs.getDouble("peso"));
+                pokemon.setAltura(rs.getDouble("altura"));
+                pokemon.setCategoria(rs.getString("categoria"));
+                pokemon.setDataDaCaptura(rs.getDate("data_da_captura").toLocalDate());
+            }else{
+                pokemon = null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro na consulta: " + e.getMessage());
+        }finally {
+            closeConnection();
+        }
+        return pokemon;
+    }
 }
