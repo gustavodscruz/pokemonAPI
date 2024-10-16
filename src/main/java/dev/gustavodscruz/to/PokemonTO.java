@@ -1,19 +1,33 @@
 package dev.gustavodscruz.to;
 
+import jakarta.validation.constraints.*;
+
 import java.time.LocalDate;
 
 public class PokemonTO {
+
     private Long codigo;
+
+    @NotBlank
     private String nome;
+    @NotNull
+    @Positive
     private Double altura;
+    @NotNull
+    @Positive
     private Double peso;
+    @NotBlank
     private String categoria;
+
+    @PastOrPresent
     private LocalDate dataDaCaptura;
 
     public PokemonTO() {
     }
 
-    public PokemonTO(Long codigo, String nome, Double altura, Double peso, String categoria, LocalDate dataDaCaptura) {
+    public PokemonTO(Long codigo, @NotBlank String nome, @NotNull @PositiveOrZero Double altura, @NotNull @PositiveOrZero Double peso,
+                     @NotBlank String categoria,
+                     @PastOrPresent LocalDate dataDaCaptura) {
         this.codigo = codigo;
         this.nome = nome;
         this.altura = altura;

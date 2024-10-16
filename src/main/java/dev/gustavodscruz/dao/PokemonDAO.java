@@ -1,7 +1,9 @@
 package dev.gustavodscruz.dao;
 
 import dev.gustavodscruz.to.PokemonTO;
+import jakarta.validation.Valid;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -56,5 +58,24 @@ public class PokemonDAO extends Repository{
             closeConnection();
         }
         return pokemon;
+    }
+    public PokemonTO save(PokemonTO pokemon){
+        String sql = "insert into pokemon (nome, peso, altura, categoria, data_da_captura) values(?, ?, ?, ?, ?)";
+        try(PreparedStatement ps = getConnection().prepareStatement(sql)){
+            ps.setString(1, pokemon.getNome());
+            ps.setDouble(2, pokemon.getPeso());
+            ps.setDouble(3, pokemon.getAltura());
+            ps.setString(4, pokemon.getCategoria());
+            ps.setDate(5, Date.valueOf(pokemon.getDataDaCaptura()));
+            if (ps.executeUpdate() > 0){
+                return pokemon;
+            }
+        }catch (SQLException e){
+            System.out.println("Erro ao salvar " + e.getMessage());
+        }finally {
+            closeConnection();
+        }
+        return null;
+
     }
 }
