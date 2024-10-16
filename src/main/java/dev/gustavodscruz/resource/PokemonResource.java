@@ -11,12 +11,11 @@ import java.util.ArrayList;
 
 @Path("/pokemon")
 public class PokemonResource {
-    private PokemonBO pokemonBO;
+    private PokemonBO pokemonBO = new PokemonBO();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll(){
-        pokemonBO = new PokemonBO();
         ArrayList<PokemonTO> resultado = pokemonBO.findAll();
         Response.ResponseBuilder response = null;
         if (resultado != null){
@@ -32,7 +31,6 @@ public class PokemonResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{codigo}")
     public Response findByCodigo(@PathParam("codigo") Long codigo){
-        pokemonBO = new PokemonBO();
         PokemonTO resultado = pokemonBO.findByCodigo(codigo);
         Response.ResponseBuilder response = null;
         if (resultado != null) {
@@ -49,7 +47,6 @@ public class PokemonResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response save(@Valid PokemonTO pokemonTO){
-        pokemonBO = new PokemonBO();
         PokemonTO resultado = pokemonBO.save(pokemonTO);
         Response.ResponseBuilder response = null;
         if (resultado != null){
@@ -61,4 +58,25 @@ public class PokemonResource {
         response.entity(resultado);
         return response.build();
     }
+
+    @DELETE
+    @Path("/{codigo}")
+    public Response delete (@PathParam("codigo") Long codigo){
+        if (pokemonBO.delete(codigo)){
+            return Response.status(204).build();
+        }
+        return Response.status(404).build();
+    }
+
+//    @DELETE
+//    @Path("/{codigo}")
+//    public Response delete (@PathParam("codigo") Long codigo){
+//        Response.ResponseBuilder response = null;
+//        if (pokemonBO.delete(codigo)){
+//            response = Response.status(204);
+//        } else{
+//            response = Response.status(404);
+//        }
+//        return response.build();
+//    }
 }

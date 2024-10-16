@@ -21,4 +21,9 @@ public class PokemonBO {
         pokemonDAO = new PokemonDAO();
         return pokemonDAO.save(pokemon);
     }
+
+    public boolean delete(Long codigo){
+        pokemonDAO = new PokemonDAO();
+        return pokemonDAO.delete(codigo);
+    }
 }
