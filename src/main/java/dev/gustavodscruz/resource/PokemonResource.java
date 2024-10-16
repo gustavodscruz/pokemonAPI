@@ -79,4 +79,18 @@ public class PokemonResource {
 //        }
 //        return response.build();
 //    }
+    @PUT
+    @Path("/{codigo}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response edit(@PathParam("codigo") Long codigo, @Valid PokemonTO pokemon){
+        PokemonTO resultado = pokemonBO.edit(codigo, pokemon);
+        Response.ResponseBuilder response = null;
+        if (resultado != null){
+            response = Response.ok();
+        } else{
+            response = Response.status(404);
+        }
+        response.entity(resultado);
+        return response.build();
+    }
 }

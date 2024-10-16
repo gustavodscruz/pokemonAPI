@@ -90,4 +90,26 @@ public class PokemonDAO extends Repository{
         }
         return false;
     }
+
+    public PokemonTO edit(Long codigo, PokemonTO pokemon){
+        String sql = "update pokemon set altura = ?, categoria = ?, data_da_captura = ?, nome = ?, peso = ? where " +
+                "codigo = ?";
+        try(PreparedStatement ps = getConnection().prepareStatement(sql)){
+            ps.setDouble(1, pokemon.getAltura());
+            ps.setString(2, pokemon.getCategoria());
+            ps.setDate(3, Date.valueOf(pokemon.getDataDaCaptura()));
+            ps.setString(4, pokemon.getNome());
+            ps.setDouble(5, pokemon.getPeso());
+            ps.setLong(6, codigo);
+            pokemon.setCodigo(codigo);
+            if (ps.executeUpdate() > 0){
+                return pokemon;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar: " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+        return null;
+    }
 }

@@ -26,4 +26,8 @@ public class PokemonBO {
         pokemonDAO = new PokemonDAO();
         return pokemonDAO.delete(codigo);
     }
+    public PokemonTO edit(Long codigo, PokemonTO pokemon){
+        pokemonDAO = new PokemonDAO();
+        return pokemonDAO.edit(codigo, pokemon);
+    }
 }
