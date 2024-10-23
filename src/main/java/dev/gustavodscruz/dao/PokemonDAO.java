@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class PokemonDAO extends Repository{
     public ArrayList<PokemonTO> findAll(){
         ArrayList<PokemonTO> pokemons = new ArrayList<>();
-        String sql = "select * from pokemon";
+        String sql = "select * from pokemons";
         try(PreparedStatement ps = getConnection().prepareStatement(sql)){
             ResultSet rs = ps.executeQuery();
             if (rs != null){
@@ -38,7 +38,7 @@ public class PokemonDAO extends Repository{
     }
     public PokemonTO findByCodigo(Long codigo){
         PokemonTO pokemon = new PokemonTO();
-        String sql = "select * from pokemon where codigo = ?";
+        String sql = "select * from pokemons where codigo = ?";
         try(PreparedStatement ps = getConnection().prepareStatement(sql)){
             ps.setLong(1, codigo);
             ResultSet rs = ps.executeQuery();
@@ -60,7 +60,7 @@ public class PokemonDAO extends Repository{
         return pokemon;
     }
     public PokemonTO save(PokemonTO pokemon){
-        String sql = "insert into pokemon (nome, peso, altura, categoria, data_da_captura) values(?, ?, ?, ?, ?)";
+        String sql = "insert into pokemons (nome, peso, altura, categoria, data_da_captura) values(?, ?, ?, ?, ?)";
         try(PreparedStatement ps = getConnection().prepareStatement(sql)){
             ps.setString(1, pokemon.getNome());
             ps.setDouble(2, pokemon.getPeso());
@@ -79,7 +79,7 @@ public class PokemonDAO extends Repository{
 
     }
     public boolean delete (Long codigo){
-        String sql = "delete from pokemon where codigo = ?";
+        String sql = "delete from pokemons where codigo = ?";
         try(PreparedStatement ps = getConnection().prepareStatement(sql)){
             ps.setLong(1, codigo);
             return ps.executeUpdate() > 0;
@@ -92,7 +92,7 @@ public class PokemonDAO extends Repository{
     }
 
     public PokemonTO edit(Long codigo, PokemonTO pokemon){
-        String sql = "update pokemon set altura = ?, categoria = ?, data_da_captura = ?, nome = ?, peso = ? where " +
+        String sql = "update pokemons set altura = ?, categoria = ?, data_da_captura = ?, nome = ?, peso = ? where " +
                 "codigo = ?";
         try(PreparedStatement ps = getConnection().prepareStatement(sql)){
             ps.setDouble(1, pokemon.getAltura());
